@@ -7,8 +7,5 @@ bot/assets/AnimePic.png
 bot/assets/Ampltugraphy.png
 tmp/
 service_account.json
-<<<<<<< Updated upstream
 .env
-controlpanel/data/
-=======
->>>>>>> Stashed changes
+data/
