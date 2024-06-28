@@ -1,4 +1,4 @@
-from typing import Any, Callable
+from typing import Any, Callable, Literal
 from functools import wraps
 from inspect import getfullargspec
 from flask import session, redirect, url_for, render_template, request, jsonify
@@ -10,6 +10,20 @@ from web.utils import tz_now, get_main_context
 
 
 class AuthBlueprint(Blueprint):
+
+    def __init__(self, *args, response_type: Literal["html", "json"] = "html", **kwargs):
+        """
+        Create a new blueprint with some additional routes for authentication.
+
+        Besides response_type, this class is identical to the Flask Blueprint class.
+
+        :param response_type: The type of response to return. Can be "html" or "json".
+        The return type is for auth_route only, that is for session authentication. Json 
+        return type should be used for restful API routes.
+        """
+        self.response_type = response_type
+        super().__init__(*args, **kwargs)
+
     def auth_route(
         self,
         rule: str,
@@ -92,6 +106,8 @@ class AuthBlueprint(Blueprint):
             if request.endpoint not in ['auth.login', 'auth.index']:
                 path_params['next'] = request.path
             if 'token' not in session or 'expires' not in session:
+                if self.response_type == 'json':
+                    return jsonify({'error': 'Not authenticated'}), 401
                 return redirect(url_for('auth.login', **path_params))
             if session['expires'] < tz_now():
                 path_params['refresh'] = True
@@ -107,6 +123,8 @@ class AuthBlueprint(Blueprint):
         def wrapper(*args, **kwargs):
             user = User.get_by_id(session['user']['id'])
             if not user or user.role < role:
+                if self.response_type == 'json':
+                    return jsonify({'error': 'Forbidden'}), 403
                 return render_template('forbidden.html', **get_main_context()), 403
             return func(*args, **kwargs)
         return wrapper

@@ -6,8 +6,8 @@ WORKDIR /controlpanel
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY web web
-COPY migrations migrations
+COPY src/web web
+COPY src/migrations migrations
 COPY scripts/entrypoint.sh entrypoint.sh
 
 RUN useradd -mU gunicron

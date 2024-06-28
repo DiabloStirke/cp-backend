@@ -37,22 +37,22 @@ services:
     networks:
       - ds_net
 
-  nginx:
-    image: nginx:1.25.3
-    restart: unless-stopped
-    container_name: nginx
-    volumes:
-      - ./nginx/:/etc/nginx/conf.d/:ro
-      - /var/www/certbot/:/var/www/certbot/:ro
-      - /etc/letsencrypt/live/diablostrike.com/:/etc/letsencrypt/live/diablostrike.com/:ro
-      - /etc/letsencrypt/archive/diablostrike.com/:/etc/letsencrypt/archive/diablostrike.com/:ro
-    ports:
-      - 80:80
-      - 443:443
-    networks:
-      - ds_net
-    depends_on:
-      - bot_control_panel
+  # nginx:
+  #   image: nginx:1.25.3
+  #   restart: unless-stopped
+  #   container_name: nginx
+  #   volumes:
+  #     - ./nginx/:/etc/nginx/conf.d/:ro
+  #     - /var/www/certbot/:/var/www/certbot/:ro
+  #     - /etc/letsencrypt/live/diablostrike.com/:/etc/letsencrypt/live/diablostrike.com/:ro
+  #     - /etc/letsencrypt/archive/diablostrike.com/:/etc/letsencrypt/archive/diablostrike.com/:ro
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   networks:
+  #     - ds_net
+  #   depends_on:
+  #     - bot_control_panel
 
 networks:
   ds_net:
