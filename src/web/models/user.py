@@ -2,7 +2,8 @@ from enum import Enum
 from typing import override, List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import BigInteger
-from web.db import db, Base
+from web.db import Base
+
 
 class RoleEnum(Enum):
     ADMIN = 'Admin'
@@ -66,7 +67,6 @@ class User(Base):
         passive_deletes=True
     )
 
-
     def __repr__(self):
         return f'<User(name={self.username}, role={self.role.value})>'
 
@@ -93,7 +93,7 @@ class User(Base):
             self.role = role
         if use_discord_username is not None:
             if (not self.use_discord_username or not use_discord_username) \
-              and self.username_matches_discord:
+                    and self.username_matches_discord:
                 self.username_matches_discord = False
             self.use_discord_username = use_discord_username
         if username_matches_discord is not None:
@@ -105,7 +105,7 @@ class User(Base):
     @classmethod
     def new(cls, disc_id, username=None, role=RoleEnum.USER, use_discord_username=True):
         return super().new(
-           id=disc_id, username=username, role=role, use_discord_username=use_discord_username
+            id=disc_id, username=username, role=role, use_discord_username=use_discord_username
         )
 
     @staticmethod

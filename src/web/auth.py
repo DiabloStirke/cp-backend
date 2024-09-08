@@ -35,10 +35,9 @@ class AuthBlueprint(Blueprint):
         rule and options. Check if the user is authenticated and has the given role.
         Calls :meth:`add_url_rule`, which has more details about the implementation.
         Can pass the user object to the view function if it's in the arguments.
-
         .. code-block:: python
 
-            @blueprint.route("/")
+            @blueprint.auth_route("/", require_auth=True)
             def index(user: User):
                 # user is passed to the view function!
                 return "Hello, World!"

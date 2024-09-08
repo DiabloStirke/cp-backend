@@ -34,7 +34,7 @@ class Base(DeclarativeBase):
         return cls.execute(cls.select)
 
     @classmethod
-    def get_by_id(cls, obj_id) -> Self:
+    def get_by_id(cls, obj_id) -> Self | None:
         filter = {cls.ID_FIELD: obj_id}
         return db.session.query(cls).filter_by(**filter).first()
 

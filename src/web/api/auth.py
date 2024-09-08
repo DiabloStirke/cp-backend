@@ -35,8 +35,9 @@ def unset_session():
     session.pop('user', None)
 
 
-@auth_api.auth_route('/discord-auth-url', methods=['GET'])
+@auth_api.route('/discord-auth-url', methods=['GET'])
 def discord_auth_url():
+    return jsonify({'test_error': 'test error'}), 400
     callback = request.args.get('callback', None)
     if not callback:
         return jsonify({'error': 'No callback provided'}), 400
